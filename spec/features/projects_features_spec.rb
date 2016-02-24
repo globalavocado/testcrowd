@@ -32,4 +32,15 @@ feature 'projects:' do
 		end
 	end
 
+	context 'viewing projects:' do
+	  let!(:crowdfundingtestproject){Project.create(name:'Crowdfundingtestproject')}
+
+	  scenario 'lets a user view a project' do
+	    visit '/projects'
+	    click_link 'Crowdfundingtestproject'
+	    expect(page).to have_content 'Crowdfundingtestproject'
+	    expect(current_path).to eq "/projects/#{crowdfundingtestproject.id}"
+	  end
+	end
+
 end
