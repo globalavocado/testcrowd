@@ -43,4 +43,17 @@ feature 'projects:' do
 	  end
 	end
 
+	context 'editing projects' do
+	  before {Project.create name: 'Crowdfundingtestproject'}
+
+	  scenario 'let a user edit a project' do
+	    visit '/projects'
+	    click_link 'edit Crowdfundingtestproject'
+	    fill_in 'Name', with: 'Crowdfunding Test Project'
+	    click_button 'update project'
+	    expect(page).to have_content 'Crowdfunding Test Project'
+	    expect(current_path).to eq '/projects'
+	  end
+	end
+
 end
