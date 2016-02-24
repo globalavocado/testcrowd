@@ -2,6 +2,7 @@
 	<% @projects.each do |project| %>
 		<h2> <%= link_to project.name, project_path(project) %> </h2>
 		<%= link_to "edit #{project.name}", edit_project_path(project) %>
+		<%= link_to "delete #{project.name}", project_path(project), method: :delete %>
 	<% end %>
 <% else %>
 	no projects yet!

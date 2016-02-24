@@ -56,4 +56,15 @@ feature 'projects:' do
 	  end
 	end
 
+	context 'deleting projects' do
+	  before {Project.create name: 'Crowdfundingtestproject'}
+
+	  scenario 'removes a project when a user clicks a delete link' do
+	    visit '/projects'
+	    click_link 'delete Crowdfundingtestproject'
+	    expect(page).not_to have_content 'Crowdfundingtestproject'
+	    expect(page).to have_content 'Project deleted successfully'
+	  end
+	end
+
 end
