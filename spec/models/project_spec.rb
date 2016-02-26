@@ -1,5 +1,4 @@
 require 'spec_helper'
-# shoulda needs to be required otherwise the 'have_many' test will fail!
 require 'shoulda/matchers'
 
 describe Project, type: :model do
@@ -9,6 +8,12 @@ describe Project, type: :model do
     project = Project.new(name: 'Cr')
     expect(project).to have(1).error_on(:name)
     expect(project).not_to be_valid
+  end
+
+  it 'is not valid unless it has a unique name' do
+    Project.create(name: "Kevin's clever mapping drone")
+ 	project = Project.new(name: "Kevin's clever mapping drone")
+ 	expect(project).to have(1).error_on(:name)
   end
 
 end
