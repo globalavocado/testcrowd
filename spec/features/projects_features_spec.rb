@@ -30,6 +30,7 @@ feature 'projects:' do
 			expect(page).to have_content 'Crowdfundingtestproject'
 			expect(current_path).to eq '/projects'
 		end
+
 	end
 
 	context 'viewing projects:' do
@@ -67,4 +68,14 @@ feature 'projects:' do
 	  end
 	end
 
+		context 'an invalid project' do
+		  it 'does not let you submit a name that is too short' do
+		    visit '/projects'
+		    click_link 'add a project'
+		    fill_in 'Name', with: 'Cr'
+		    click_button 'create project'
+		    expect(page).not_to have_css 'h2', text: 'Cr'
+		    expect(page).to have_content 'error'
+		  end
+		end
 end
