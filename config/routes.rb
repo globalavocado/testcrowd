@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
-  get 'projects' => 'projects#index'
+  devise_for :users
+
+  root to: 'projects#index'
   
   resources :projects do
     resources :reviews
