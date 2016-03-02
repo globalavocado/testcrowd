@@ -7,11 +7,13 @@ class ProjectsController < ApplicationController
 	end
 
 	def new
+		authenticate_user!
 		@project = Project.new
 	end
 
 	def create
 		@project = Project.new(project_params)
+		@project.user = current_user
 		if @project.save
 			redirect_to projects_path
 		else

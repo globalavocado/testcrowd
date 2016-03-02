@@ -1,14 +1,23 @@
 require 'rails_helper'
 
-  # def leave_review(thoughts, rating)
-  #   fill_in 'Thoughts', with: thoughts
-  #   select rating, from: 'Rating'
-  #   click_button 'leave review'
-  # end
+  def signup_user (email, password)
+    visit '/' 
+    click_link 'sign up' 
+    fill_in 'Email', with: email
+    fill_in 'Password', with: password
+    fill_in 'Password confirmation', with: password
+    click_button 'Sign up' 
+  end
 
-feature 'reviewing' do
-  
-  before {Project.create name: 'Crowdfundingtestproject'}
+feature 'reviewing' do  
+    before do
+      signup_user('test@example.com', 'password123')
+      click_link 'add a project'
+      fill_in 'Name', with: 'Crowdfundingtestproject'
+      click_button 'create project'
+      # expect(page).to have_content 'Crowdfundingtestproject'
+      # expect(current_path).to eq '/projects'
+    end
 
   scenario 'allows users to leave a review using a form' do
     visit '/projects'
@@ -27,6 +36,8 @@ feature 'reviewing' do
     select '1', from: 'Rating'
     click_button 'leave review'
     click_link 'review Crowdfundingtestproject'
+    fill_in 'Thoughts', with: 'awful'
+    click_button 'leave review'
     expect(page).to have_content('you cannot review the same project twice.')
   end
 
