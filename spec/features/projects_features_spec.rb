@@ -69,14 +69,26 @@ feature 'projects:' do
 	end
 
 	context 'deleting projects:' do
-	  before {Project.create name: 'Crowdfundingtestproject'}
+	  before do
+			signup_user('test@example.com', 'password123')
+			click_link 'add a project'
+			fill_in 'Name', with: 'Crowdfundingtestproject'
+			click_button 'create project'
+	  end
 
 		scenario 'removes a project when a user clicks a delete link' do
-			signup_user('test@example.com', 'password123')
 			visit '/projects'
 			click_link 'delete Crowdfundingtestproject'
 			expect(page).not_to have_content 'Crowdfundingtestproject'
 			expect(page).to have_content 'Project deleted successfully'
+		end
+
+		scenario 'users can only delete their own projects' do
+			click_link 'log out'
+			signup_user('test2@example.com', 'password678')
+			visit '/projects'
+			click_link 'delete Crowdfundingtestproject'
+			expect(page).to have_content("you cannot delete somebody else's project.")
 		end
 
 	end
