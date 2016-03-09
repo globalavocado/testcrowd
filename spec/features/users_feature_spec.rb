@@ -29,6 +29,12 @@ feature 'user can sign in and out' do
       expect(page).not_to have_link('log in')
       expect(page).not_to have_link('sign up')
     end
+
+    it 'should see a greeting containing their email address in the header' do
+      visit('/')
+      expect(page).to have_content('Hello test@example.com!')
+    end
+
   end
 
 end
