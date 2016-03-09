@@ -15,8 +15,6 @@ feature 'reviewing' do
       click_link 'add a project'
       fill_in 'Name', with: 'Crowdfundingtestproject'
       click_button 'create project'
-      # expect(page).to have_content 'Crowdfundingtestproject'
-      # expect(current_path).to eq '/projects'
     end
 
   scenario 'allows users to leave a review using a form' do
@@ -27,6 +25,13 @@ feature 'reviewing' do
     click_button 'leave review'
     expect(current_path).to eq '/projects'
     expect(page).to have_content('seems fairly good')
+  end
+
+  scenario 'user has to be logged in to leave a review' do
+    click_link 'log out'
+    visit '/projects'
+    click_link 'review Crowdfundingtestproject'
+    expect(page).to have_content('you need to be logged in to leave a review.')
   end
 
   scenario 'user cannot leave multiple reviews' do
@@ -40,5 +45,6 @@ feature 'reviewing' do
     click_button 'leave review'
     expect(page).to have_content('you cannot review the same project twice.')
   end
+
 
 end
