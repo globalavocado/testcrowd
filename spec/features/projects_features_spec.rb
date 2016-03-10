@@ -91,6 +91,13 @@ feature 'projects:' do
 			expect(page).to have_content("you cannot delete somebody else's project.")
 		end
 
+		scenario 'logged out users will not see links to edit or delete projects' do
+		  click_link 'log out'
+		  visit '/projects'
+		  expect(page).not_to have_link('edit Crowdfundingtestproject')
+		  expect(page).not_to have_link('delete Crowdfundingtestproject')
+		end
+
 	end
 
 	context 'an invalid project:' do

@@ -1,8 +1,10 @@
 <% if @projects.any? %>
 	<% @projects.each do |project| %>
 		<h2> <%= link_to project.name, project_path(project) %> </h2>
-		<%= link_to "edit #{project.name}", edit_project_path(project) %>
-		<%= link_to "delete #{project.name}", project_path(project), method: :delete %>
+		<% if user_signed_in? %>
+			<%= link_to "edit #{project.name}", edit_project_path(project) %>
+			<%= link_to "delete #{project.name}", project_path(project), method: :delete %>
+		<% end %>
 		<%=link_to "review #{project.name}", new_project_review_path(project) %>
 	<h3>Reviews for <%= project.name %></h3>
 	<% if project.reviews.any? %>
