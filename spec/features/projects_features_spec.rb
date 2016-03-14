@@ -54,16 +54,28 @@ feature 'projects:' do
 	end
 
 	context 'editing projects:' do
-	  before {Project.create name: 'Crowdfundingtestproject'}
+	 	before do
+		  	signup_user('test@example.com', 'password123')
+			click_link 'add a project'
+			fill_in 'Name', with: 'Crowdfundingtestproject'
+			click_button 'create project'
+		end
 
 		scenario 'let a user edit a project' do
-			signup_user('test@example.com', 'password123')
 			visit '/projects'
 			click_link 'edit Crowdfundingtestproject'
-			fill_in 'Name', with: 'Crowdfunding Test Project'
+			fill_in 'Name', with: 'The Fantastic Crowdfunding Project'
 			click_button 'update project'
-			expect(page).to have_content 'Crowdfunding Test Project'
+			expect(page).to have_content 'The Fantastic Crowdfunding Project'
 			expect(current_path).to eq '/projects'
+		end
+
+		scenario 'users can only edit their own projects' do
+			click_link 'log out'
+			signup_user('test2@example.com', 'password678')
+			visit '/projects'
+			click_link 'edit Crowdfundingtestproject'
+			expect(page).to have_content("you cannot edit somebody else's project.")
 		end
 
 	end

@@ -31,12 +31,24 @@ class ProjectsController < ApplicationController
 
 	def edit
 		@project = Project.find(params[:id])
+		if current_user.id != @project.user_id
+			flash[:notice] = "you cannot edit somebody else's project."
+			redirect_to projects_path
+		else
+			render 'edit'
+		end
 	end
 
 	def update
 		@project = Project.find(params[:id])
-		@project.update(project_params)
-		redirect_to '/projects'
+			if current_user.id != @project.user_id
+			flash[:notice] = "you cannot edit somebody else's project."
+			redirect_to projects_path
+		else
+			@project.update(project_params)
+			flash[:notice] = 'Project edited successfully'
+			redirect_to projects_path
+		end
 	end
 
 	def destroy
