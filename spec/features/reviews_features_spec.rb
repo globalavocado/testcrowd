@@ -38,6 +38,16 @@ feature 'reviewing' do
     expect(page).to have_content('3')
   end
 
+  scenario 'display user email to identify author of review' do
+    visit '/projects'
+    click_link 'review Crowdfundingtestproject'
+    fill_in 'Thoughts', with: 'seems fairly good'
+    select '3', from: 'Rating'
+    click_button 'leave review'
+    click_link 'Crowdfundingtestproject'
+    expect(page).to have_content('review by test@example.com')
+  end
+
   scenario 'user has to be logged in to leave a review' do
     click_link 'log out'
     visit '/projects'
