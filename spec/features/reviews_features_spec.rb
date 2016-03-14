@@ -27,6 +27,17 @@ feature 'reviewing' do
     expect(page).to have_content('seems fairly good')
   end
 
+  scenario 'allows user to see review and rating on the show page' do
+    visit '/projects'
+    click_link 'review Crowdfundingtestproject'
+    fill_in 'Thoughts', with: 'seems fairly good'
+    select '3', from: 'Rating'
+    click_button 'leave review'
+    click_link 'Crowdfundingtestproject'
+    expect(page).to have_content('seems fairly good')
+    expect(page).to have_content('3')
+  end
+
   scenario 'user has to be logged in to leave a review' do
     click_link 'log out'
     visit '/projects'

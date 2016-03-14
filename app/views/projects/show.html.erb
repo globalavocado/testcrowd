@@ -1,2 +1,14 @@
 <p><%= @project.name %></p>
 <p><%= @project.description %></p>
+<% if @project.reviews.any? %>
+		<ul>
+			<% @project.reviews.each do |review| %>
+			<li>
+				<%= review.thoughts %>, <strong><%= review.rating %></strong>/5
+			</li>
+			<% end %>
+		</ul>
+	<% else %>
+		<p>No reviews yet!</p>
+	<% end %>
+
