@@ -19,3 +19,6 @@ config/secrets.yml
 ## Environment normalization:
 /.bundle
 /vendor/bundle
+
+# Ignore Byebug command history file.
+.byebug_history
