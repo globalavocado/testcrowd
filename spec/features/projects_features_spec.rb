@@ -31,7 +31,12 @@ feature 'projects:' do
 	end
 
 	context 'projects have been added:' do
-	  before {Project.create name: 'Crowdfundingtestproject'}
+	  	 	before do
+		  	signup_user('test@example.com', 'password123')
+			click_link 'add a project'
+			fill_in 'Name', with: 'Crowdfundingtestproject'
+			click_button 'create project'
+		end
 
 		scenario 'display projects' do
 			visit '/projects'
@@ -42,13 +47,28 @@ feature 'projects:' do
 	end
 
 	context 'viewing projects:' do
-		let!(:crowdfundingtestproject){Project.create(name:'Crowdfundingtestproject')}
+		before do
+			signup_user('test2@example.com', 'password678')
+			click_link 'add a project'
+			fill_in 'Name', with: "Crowdfundingtestproject"
+			click_button 'create project'
+		end
 
-		scenario 'lets a user view a project' do
+		scenario 'lets a user view a project page' do
 			visit '/projects'
 			click_link 'Crowdfundingtestproject'
 			expect(page).to have_content 'Crowdfundingtestproject'
-			expect(current_path).to eq "/projects/#{crowdfundingtestproject.id}"
+		end
+
+		scenario 'display user email to identify creator of project' do
+			click_link 'log out'
+			visit '/projects'
+			signup_user('test@example.com', 'password123')
+			click_link 'add a project'
+			fill_in 'Name', with: "Chris' fantastic flying Cola bottles"
+			click_button 'create project'
+			click_link "Chris' fantastic flying Cola bottles"
+			expect(page).to have_content('added by test@example.com')
 		end
 
 	end

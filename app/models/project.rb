@@ -3,4 +3,6 @@ class Project < ActiveRecord::Base
 		has_many :reviews, dependent: :destroy
 		belongs_to :user
 
+		delegate :email, to: :user
+
 end
