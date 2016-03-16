@@ -1,14 +1,16 @@
 <p><strong><%= @project.name %></strong> - added by <%= @project.email %></p>
+
 <p><%= @project.description %></p>
-	<% if @project.reviews.any? %>
-			<ul>
-				<% @project.reviews.each do |review| %>
-				<li>
-					<%= review.thoughts %>, <strong><%= review.rating %></strong>/5 <p>review by <%= review.email %></p>
-				</li>
-				<% end %>
-			</ul>
-	<% else %>
-		<p>No reviews yet!</p>
-	<% end %>
+
+  <% if @project.reviews.any? %>
+    <ul>
+      <% @project.reviews.each do |review| %>
+      <li>
+      	<%= review.thoughts %>, <strong><%= review.rating %></strong>/5 <p>review by <%= review.email %></p>
+      </li>
+      <% end %>
+    </ul>
+    <% else %>
+      <p>No reviews yet!</p>
+  <% end %>
 
