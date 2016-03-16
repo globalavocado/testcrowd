@@ -62,10 +62,7 @@ feature 'reviewing' do
     select '1', from: 'Rating'
     click_button 'leave review'
     click_link 'review Crowdfundingtestproject'
-    fill_in 'Thoughts', with: 'awful'
-    click_button 'leave review'
     expect(page).to have_content('you cannot review the same project twice.')
   end
-
 
 end
