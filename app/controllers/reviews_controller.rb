@@ -27,4 +27,18 @@ class ReviewsController < ApplicationController
       end
     end
 
+  def destroy
+    @project = Project.find(params[:project_id])
+    @review = Review.find(params[:id])
+    @review.destroy
+      flash[:notice] = 'Review deleted successfully'
+    redirect_to projects_path
+  end
+
+private
+
+  def review_params
+    params.require(:review).permit(:id, :project_id, :thoughts, :rating)
+  end
+
 end

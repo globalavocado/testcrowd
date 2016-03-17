@@ -9,7 +9,7 @@ require 'rails_helper'
     click_button 'Sign up' 
   end
 
-feature 'reviewing' do  
+feature 'reviewing:' do  
     before do
       signup_user('test@example.com', 'password123')
       click_link 'add a project'
@@ -38,7 +38,7 @@ feature 'reviewing' do
     expect(page).to have_content('3')
   end
 
-  scenario 'display user email to identify author of review' do
+  scenario 'displays user email to identify author of review' do
     visit '/projects'
     click_link 'review Crowdfundingtestproject'
     fill_in 'Thoughts', with: 'seems fairly good'
@@ -63,6 +63,18 @@ feature 'reviewing' do
     click_button 'leave review'
     click_link 'review Crowdfundingtestproject'
     expect(page).to have_content('you cannot review the same project twice.')
+  end
+
+  scenario 'users can delete reviews' do
+    visit '/projects'
+    click_link 'review Crowdfundingtestproject'
+    fill_in 'Thoughts', with: 'awful'
+    select '1', from: 'Rating'
+    click_button 'leave review'
+    click_link 'Crowdfundingtestproject'
+    click_link 'delete review'
+    expect(page).not_to have_content 'awful'
+    expect(page).to have_content('Review deleted successfully')
   end
 
 end
