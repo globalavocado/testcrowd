@@ -65,16 +65,30 @@ feature 'reviewing:' do
     expect(page).to have_content('you cannot review the same project twice.')
   end
 
-  scenario 'users can delete reviews' do
-    visit '/projects'
-    click_link 'review Crowdfundingtestproject'
-    fill_in 'Thoughts', with: 'awful'
-    select '1', from: 'Rating'
-    click_button 'leave review'
-    click_link 'Crowdfundingtestproject'
-    click_link 'delete review'
-    expect(page).not_to have_content 'awful'
-    expect(page).to have_content('Review deleted successfully')
-  end
+context 'deleting reviews:' do
+  before do
+      visit '/projects'
+      click_link 'review Crowdfundingtestproject'
+      fill_in 'Thoughts', with: 'awful'
+      select '1', from: 'Rating'
+      click_button 'leave review'
+      click_link 'Crowdfundingtestproject'
+  end  
 
+    it 'users can delete their own reviews' do
+      click_link 'delete review'
+      expect(page).not_to have_content 'awful'
+      expect(page).to have_content('Review deleted successfully')
+    end
+
+    it "users cannot delete another user's review" do
+      click_link 'log out'
+      signup_user('test2@example.com', 'password678')
+      visit '/projects'
+      click_link 'Crowdfundingtestproject'
+      click_link 'delete review'
+      expect(page).to have_content("you cannot delete somebody else's review!")
+    end
+
+  end
 end
