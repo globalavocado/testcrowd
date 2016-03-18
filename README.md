@@ -22,7 +22,8 @@ Crowdfunding campaigners are able to try out their crowdfunding project and uplo
 
 *users who are logged in are able to:*
 
-* create, edit and delete their own projects and reviews, but not those of other users
+* create, edit and delete their own projects, but not those of other users
+* create and delete their own reviews, but not those of other users
 * add a review text and a numerical rating to a project, but not more than once
 
 ### future development:
