@@ -13,6 +13,7 @@ feature 'projects:' do
 
   context 'no projects have been added' do
     scenario 'should display a prompt to add a project' do
+      signup_user('test@example.com', 'password123')
       visit '/projects'
       expect(page).to have_content 'no projects yet!'
       expect(page).to have_link 'add a project'
@@ -20,6 +21,12 @@ feature 'projects:' do
   end
 
   context 'creating projects:' do
+    scenario 'users who are not logged in cannot add projects' do
+      visit '/'
+      expect(page).to have_content 'no projects yet!'
+      expect(page).not_to have_link 'add a project'
+    end
+
     scenario 'prompts user to fill out a form, then displays the new project' do
       signup_user('test@example.com', 'password123')
       click_link 'add a project'

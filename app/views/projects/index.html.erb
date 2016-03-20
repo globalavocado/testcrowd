@@ -1,28 +1,30 @@
 <% if @projects.any? %>
-	<% @projects.each do |project| %>
-		<h2> <%= link_to project.name, project_path(project) %> </h2>
-		<% if user_signed_in? %>
-			<%= link_to "edit #{project.name}", edit_project_path(project) %>
-			<%= link_to "delete #{project.name}", project_path(project), method: :delete %>
-		<% end %>
-		<%=link_to "review #{project.name}", new_project_review_path(project) %>
-	<h3>Reviews for <%= project.name %></h3>
-	<% if project.reviews.any? %>
-		<ul>
-			<% project.reviews.each do |review| %>
-			<li>
-				<%= review.thoughts %>, <strong><%= review.rating %></strong>/5
-			</li>
-			<% end %>
-		</ul>
-	<% else %>
-		<p>No reviews yet!</p>
-	<% end %>
-	<% end %>
+  <% @projects.each do |project| %>
+    <h2> <%= link_to project.name, project_path(project) %> </h2>
+    <% if user_signed_in? %>
+      <%= link_to "edit #{project.name}", edit_project_path(project) %>
+      <%= link_to "delete #{project.name}", project_path(project), method: :delete %>
+    <% end %>
+    <%=link_to "review #{project.name}", new_project_review_path(project) %>
+  <h3>Reviews for <%= project.name %></h3>
+  <% if project.reviews.any? %>
+    <ul>
+      <% project.reviews.each do |review| %>
+      <li>
+        <%= review.thoughts %>, <strong><%= review.rating %></strong>/5
+      </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No reviews yet!</p>
+  <% end %>
+  <% end %>
 
-	
+  
 <% else %>
-	no projects yet!
+  no projects yet!
 <% end %>
 
-<%=link_to "add a project", new_project_path %>
+<% if user_signed_in? %>
+  <%=link_to "add a project", new_project_path %>
+<% end %>
