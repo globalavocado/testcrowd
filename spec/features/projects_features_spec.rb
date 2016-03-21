@@ -23,7 +23,6 @@ feature 'projects:' do
   context 'creating projects:' do
     scenario 'users who are not logged in cannot add projects' do
       visit '/'
-      expect(page).not_to have_content 'no projects yet!'
       expect(page).not_to have_link 'add a project'
     end
 
@@ -66,6 +65,7 @@ feature 'projects:' do
     scenario 'a user not logged in cannot view projects' do
       click_link 'log out'
       visit '/'
+      expect(page).to have_content('Please join our community to test your campaign before it goes live.')
       expect(page).not_to have_content('Crowdfundingtestproject')
     end
 
