@@ -48,12 +48,12 @@ feature 'reviewing:' do
     expect(page).to have_content('review by test@example.com')
   end
 
-  scenario 'user has to be logged in to leave a review' do
-    click_link 'log out'
-    visit '/projects'
-    click_link 'review Crowdfundingtestproject'
-    expect(page).to have_content('you need to be logged in to leave a review.')
-  end
+  # scenario 'user has to be logged in to leave a review' do
+  #   click_link 'log out'
+  #   visit '/projects'
+  #   click_link 'review Crowdfundingtestproject'
+  #   expect(page).to have_content('you need to be logged in to leave a review.')
+  # end
 
   scenario 'user cannot leave multiple reviews' do
     visit '/projects'
