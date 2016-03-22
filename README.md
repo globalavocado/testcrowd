@@ -18,6 +18,7 @@ Crowdfunding campaigners are able to try out their crowdfunding project and uplo
 * users can determine whether they are logged in from the greeting message at the top, which contains their email address
 * every project has its own page containing name, description, list of reviews with reviewer name and ratings
 * project names must be at least three characters long, ratings must be between 1 and 5, reviews are optional
+* two different user groups: all users can leave ratings/reviews, admin users can also create projects
 
 *users who are logged in are able to:*
 
@@ -33,5 +34,4 @@ Crowdfunding campaigners are able to try out their crowdfunding project and uplo
 * a user name will be displayed next to each review
 * through a form, users are able to embed presentations or upload media to their projects
 * users can log in with Twitter or Facebook
-* two different user groups: users can leave comments, admins can create projects
 * notification system for project owner
