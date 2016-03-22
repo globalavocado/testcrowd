@@ -28,7 +28,8 @@
       no projects yet!
   <% end %>
 
-    <%=link_to "add a project", new_project_path %>
+    <%=link_to "add a project", new_project_path if current_user.admin? %>
+
 
     <% else %>
 

@@ -1,21 +1,34 @@
 require 'rails_helper'
 
-  def signup_user (email, password)
-    visit '/' 
-    click_link 'sign up' 
-    fill_in 'Email', with: email
-    fill_in 'Password', with: password
-    fill_in 'Password confirmation', with: password
-    click_button 'Sign up' 
-  end
+  # def signup_user (email, password)
+  #   visit '/' 
+  #   click_link 'sign up' 
+  #   fill_in 'Email', with: email
+  #   fill_in 'Password', with: password
+  #   fill_in 'Password confirmation', with: password
+  #   click_button 'Sign up' 
+  # end
 
 feature 'reviewing:' do  
-    before do
-      signup_user('test@example.com', 'password123')
-      click_link 'add a project'
-      fill_in 'Name', with: 'Crowdfundingtestproject'
-      click_button 'create project'
-    end
+  before do
+    user = create :admin1 
+    visit '/'
+    click_link 'log in'
+    fill_in 'Email', with: 'admin1@example.com'
+    fill_in 'Password', with: 'password678'
+    click_button 'Log in'
+    click_link 'add a project'
+    fill_in 'Name', with: 'Crowdfundingtestproject'
+    fill_in 'Description', with: 'this is the description'
+    click_button 'create project'
+    click_link 'log out'
+    user = create :user1 
+    visit '/'
+    click_link 'log in'
+    fill_in 'Email', with: 'user1@example.com'
+    fill_in 'Password', with: 'password123'
+    click_button 'Log in'
+  end
 
   scenario 'allows users to leave a review using a form' do
     visit '/projects'
@@ -45,7 +58,7 @@ feature 'reviewing:' do
     select '3', from: 'Rating'
     click_button 'leave review'
     click_link 'Crowdfundingtestproject'
-    expect(page).to have_content('review by test@example.com')
+    expect(page).to have_content('review by user1@example.com')
   end
 
   # scenario 'user has to be logged in to leave a review' do
@@ -83,7 +96,12 @@ context 'deleting reviews:' do
 
     it "users cannot delete another user's review" do
       click_link 'log out'
-      signup_user('test2@example.com', 'password678')
+      user = create :user2 
+      visit '/'
+      click_link 'log in'
+      fill_in 'Email', with: 'user2@example.com'
+      fill_in 'Password', with: 'password246'
+      click_button 'Log in'
       visit '/projects'
       click_link 'Crowdfundingtestproject'
       click_link 'delete review'
