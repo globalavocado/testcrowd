@@ -1,24 +1,27 @@
 require 'rails_helper'
 
-  # def signup_user (email, password)
-  #   visit '/' 
-  #   click_link 'sign up' 
-  #   fill_in 'Email', with: email
-  #   fill_in 'Password', with: password
-  #   fill_in 'Password confirmation', with: password
-  #   click_button 'Sign up' 
-  # end
+  def login_user (email, password)
+    visit '/' 
+    click_link 'log in' 
+    fill_in 'Email', with: email
+    fill_in 'Password', with: password
+    click_button 'Log in' 
+  end
+
+  def add_project (name, description)
+    visit '/projects'
+    click_link 'add a project'
+    fill_in 'Name', with: 'Crowdfundingtestproject'
+    fill_in 'Description', with: 'this is the description'
+    click_button 'create project'
+  end
 
 feature 'projects:' do
 
   context 'no projects have been added' do
     scenario 'should not display a prompt to add a project for regular users' do
       user = create :user1
-      visit '/'
-      click_link 'log in'
-      fill_in 'Email', with: 'user1@example.com'
-      fill_in 'Password', with: 'password123'
-      click_button 'Log in'
+      login_user('user1@example.com', 'password123')
       visit '/projects'
       expect(page).to have_content 'no projects yet!'
       expect(page).not_to have_link 'add a project'
@@ -26,11 +29,7 @@ feature 'projects:' do
 
     scenario 'should display a link to add a project for admins' do
       user = create :admin1
-      visit '/'
-      click_link 'log in'
-      fill_in 'Email', with: 'admin1@example.com'
-      fill_in 'Password', with: 'password678'
-      click_button 'Log in'
+      login_user('admin1@example.com', 'password678')
       visit '/projects'
       expect(page).to have_content 'no projects yet!'
       expect(page).to have_link 'add a project'
@@ -45,15 +44,8 @@ feature 'projects:' do
 
     scenario 'prompts admin to fill out a form, then displays the new project' do
       user = create :admin1 
-      visit '/'
-      click_link 'log in'
-      fill_in 'Email', with: 'admin1@example.com'
-      fill_in 'Password', with: 'password678'
-      click_button 'Log in'
-      click_link 'add a project'
-      fill_in 'Name', with: 'Crowdfundingtestproject'
-      fill_in 'Description', with: 'this is the description'
-      click_button 'create project'
+      login_user('admin1@example.com', 'password678')
+      add_project('Crowdfundingtestproject', 'this is the description')
       click_link 'Crowdfundingtestproject'
       expect(page).to have_content 'Crowdfundingtestproject'
       expect(page).to have_content 'this is the description'
@@ -63,15 +55,8 @@ feature 'projects:' do
   context 'projects have been added:' do
     before do
       user = create :admin1 
-      visit '/'
-      click_link 'log in'
-      fill_in 'Email', with: 'admin1@example.com'
-      fill_in 'Password', with: 'password678'
-      click_button 'Log in'
-      click_link 'add a project'
-      fill_in 'Name', with: 'Crowdfundingtestproject'
-      fill_in 'Description', with: 'this is the description'
-      click_button 'create project'
+      login_user('admin1@example.com', 'password678')
+      add_project('Crowdfundingtestproject', 'this is the description')
     end
 
     scenario 'display projects' do
@@ -85,15 +70,8 @@ feature 'projects:' do
   context 'viewing projects:' do
     before do
       user = create :admin1 
-      visit '/'
-      click_link 'log in'
-      fill_in 'Email', with: 'admin1@example.com'
-      fill_in 'Password', with: 'password678'
-      click_button 'Log in'
-      click_link 'add a project'
-      fill_in 'Name', with: 'Crowdfundingtestproject'
-      fill_in 'Description', with: 'this is the description'
-      click_button 'create project'
+      login_user('admin1@example.com', 'password678')
+      add_project('Crowdfundingtestproject', 'this is the description')
     end
 
     scenario 'a user not logged in cannot view projects' do
@@ -106,21 +84,14 @@ feature 'projects:' do
     scenario 'lets a user view a project page' do
       click_link 'log out'
       user = create :user1 
-      visit '/'
-      click_link 'log in'
-      fill_in 'Email', with: 'user1@example.com'
-      fill_in 'Password', with: 'password123'
-      click_button 'Log in'
+      login_user('user1@example.com', 'password123')
       visit '/projects'
       click_link 'Crowdfundingtestproject'
       expect(page).to have_content 'Crowdfundingtestproject'
     end
 
     scenario 'display user email to identify creator of project' do
-      visit '/projects'
-      click_link 'add a project'
-      fill_in 'Name', with: "Chris' fantastic flying Cola bottles"
-      click_button 'create project'
+      add_project("Chris' fantastic flying Cola bottles", "this is the description")
       click_link "Chris' fantastic flying Cola bottles"
       expect(page).to have_content('added by admin1@example.com')
     end
@@ -130,18 +101,11 @@ feature 'projects:' do
   context 'editing projects:' do
     before do
       user = create :admin1 
-      visit '/'
-      click_link 'log in'
-      fill_in 'Email', with: 'admin1@example.com'
-      fill_in 'Password', with: 'password678'
-      click_button 'Log in'
-      click_link 'add a project'
-      fill_in 'Name', with: 'Crowdfundingtestproject'
-      fill_in 'Description', with: 'this is the description'
-      click_button 'create project'
+      login_user('admin1@example.com', 'password678')
+      add_project('Crowdfundingtestproject', 'this is the description')
     end
 
-    scenario 'let a user edit a project' do
+    scenario 'lets a user edit a project' do
       visit '/projects'
       click_link 'edit Crowdfundingtestproject'
       fill_in 'Name', with: 'The Fantastic Crowdfunding Project'
@@ -153,11 +117,7 @@ feature 'projects:' do
     scenario 'users can only edit their own projects' do
       click_link 'log out'
       user = create :admin2 
-      visit '/'
-      click_link 'log in'
-      fill_in 'Email', with: 'admin2@example.com'
-      fill_in 'Password', with: 'password789'
-      click_button 'Log in'
+      login_user('admin2@example.com', 'password789')
       visit '/projects'
       click_link 'edit Crowdfundingtestproject'
       expect(page).to have_content("you cannot edit somebody else's project.")
@@ -168,15 +128,8 @@ feature 'projects:' do
   context 'deleting projects:' do
     before do
       user = create :admin1 
-      visit '/'
-      click_link 'log in'
-      fill_in 'Email', with: 'admin1@example.com'
-      fill_in 'Password', with: 'password678'
-      click_button 'Log in'
-      click_link 'add a project'
-      fill_in 'Name', with: 'Crowdfundingtestproject'
-      fill_in 'Description', with: 'this is the description'
-      click_button 'create project'
+      login_user('admin1@example.com', 'password678')
+      add_project('Crowdfundingtestproject', 'this is the description')
     end
 
     scenario 'removes a project when an admin clicks a delete link' do
@@ -189,17 +142,13 @@ feature 'projects:' do
     scenario 'users can only delete their own projects' do
       click_link 'log out'
       user = create :admin2 
-      visit '/'
-      click_link 'log in'
-      fill_in 'Email', with: 'admin2@example.com'
-      fill_in 'Password', with: 'password789'
-      click_button 'Log in'
+      login_user('admin2@example.com', 'password789')
       visit '/projects'
       click_link 'delete Crowdfundingtestproject'
       expect(page).to have_content("you cannot delete somebody else's project.")
     end
 
-    scenario 'logged out admins will not see links to edit or delete projects' do
+    scenario 'logged out users will not see links to edit or delete projects' do
       click_link 'log out'
       visit '/projects'
       expect(page).not_to have_link('edit Crowdfundingtestproject')
@@ -212,13 +161,8 @@ feature 'projects:' do
 
     it 'does not let you submit a name that is too short' do
       user = create :admin1 
-      visit '/'
-      click_link 'log in'
-      fill_in 'Email', with: 'admin1@example.com'
-      fill_in 'Password', with: 'password678'
-      click_button 'Log in'
-      click_link 'add a project'
-      fill_in 'Name', with: 'Cr'
+      login_user('admin1@example.com', 'password678')
+      add_project('Cr', 'this is the description')
       click_button 'create project'
       expect(page).not_to have_css 'h2', text: 'Cr'
       expect(page).to have_content 'error'

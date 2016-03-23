@@ -1,62 +1,55 @@
 require 'rails_helper'
 
-  # def signup_user (email, password)
-  #   visit '/' 
-  #   click_link 'sign up' 
-  #   fill_in 'Email', with: email
-  #   fill_in 'Password', with: password
-  #   fill_in 'Password confirmation', with: password
-  #   click_button 'Sign up' 
-  # end
+  def login_user (email, password)
+    visit '/' 
+    click_link 'log in' 
+    fill_in 'Email', with: email
+    fill_in 'Password', with: password
+    click_button 'Log in' 
+  end
+
+  def add_project (name, description)
+    visit '/projects'
+    click_link 'add a project'
+    fill_in 'Name', with: name
+    fill_in 'Description', with: description
+    click_button 'create project'
+  end
+
+  def leave_review (thoughts)
+    visit '/projects'
+    click_link 'review Crowdfundingtestproject'
+    fill_in 'Thoughts', with: thoughts
+    select '3', from: 'Rating'
+    click_button 'leave review'
+  end
 
 feature 'reviewing:' do  
   before do
     user = create :admin1 
-    visit '/'
-    click_link 'log in'
-    fill_in 'Email', with: 'admin1@example.com'
-    fill_in 'Password', with: 'password678'
-    click_button 'Log in'
-    click_link 'add a project'
-    fill_in 'Name', with: 'Crowdfundingtestproject'
-    fill_in 'Description', with: 'this is the description'
-    click_button 'create project'
+    login_user('admin1@example.com', 'password678')
+    add_project('Crowdfundingtestproject', 'this is the description')
     click_link 'log out'
     user = create :user1 
-    visit '/'
-    click_link 'log in'
-    fill_in 'Email', with: 'user1@example.com'
-    fill_in 'Password', with: 'password123'
-    click_button 'Log in'
+    login_user('user1@example.com', 'password123')
   end
 
   scenario 'allows users to leave a review using a form' do
-    visit '/projects'
-    click_link 'review Crowdfundingtestproject'
-    fill_in 'Thoughts', with: 'seems fairly good'
-    select '3', from: 'Rating'
-    click_button 'leave review'
+    leave_review('seems fairly good')
     expect(current_path).to eq '/projects'
     expect(page).to have_content('seems fairly good')
+    expect(page).to have_content("you've successfully left a review!")
   end
 
   scenario 'allows user to see review and rating on the show page' do
-    visit '/projects'
-    click_link 'review Crowdfundingtestproject'
-    fill_in 'Thoughts', with: 'seems fairly good'
-    select '3', from: 'Rating'
-    click_button 'leave review'
+    leave_review('seems fairly good')
     click_link 'Crowdfundingtestproject'
     expect(page).to have_content('seems fairly good')
     expect(page).to have_content('3')
   end
 
   scenario 'displays user email to identify author of review' do
-    visit '/projects'
-    click_link 'review Crowdfundingtestproject'
-    fill_in 'Thoughts', with: 'seems fairly good'
-    select '3', from: 'Rating'
-    click_button 'leave review'
+    leave_review('seems fairly good')
     click_link 'Crowdfundingtestproject'
     expect(page).to have_content('review by user1@example.com')
   end
@@ -69,39 +62,27 @@ feature 'reviewing:' do
   # end
 
   scenario 'user cannot leave multiple reviews' do
-    visit '/projects'
-    click_link 'review Crowdfundingtestproject'
-    fill_in 'Thoughts', with: 'awful'
-    select '1', from: 'Rating'
-    click_button 'leave review'
+    leave_review('a bit awful')
     click_link 'review Crowdfundingtestproject'
     expect(page).to have_content('you cannot review the same project twice.')
   end
 
 context 'deleting reviews:' do
   before do
-      visit '/projects'
-      click_link 'review Crowdfundingtestproject'
-      fill_in 'Thoughts', with: 'awful'
-      select '1', from: 'Rating'
-      click_button 'leave review'
+      leave_review('awful')
       click_link 'Crowdfundingtestproject'
   end  
 
     it 'users can delete their own reviews' do
       click_link 'delete review'
-      expect(page).not_to have_content 'awful'
+      expect(page).not_to have_content('awful')
       expect(page).to have_content('Review deleted successfully')
     end
 
     it "users cannot delete another user's review" do
       click_link 'log out'
       user = create :user2 
-      visit '/'
-      click_link 'log in'
-      fill_in 'Email', with: 'user2@example.com'
-      fill_in 'Password', with: 'password246'
-      click_button 'Log in'
+      login_user('user2@example.com', 'password246')
       visit '/projects'
       click_link 'Crowdfundingtestproject'
       click_link 'delete review'
