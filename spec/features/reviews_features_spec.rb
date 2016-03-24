@@ -16,11 +16,11 @@ require 'rails_helper'
     click_button 'create project'
   end
 
-  def leave_review (thoughts)
+  def leave_review (thoughts, rating)
     visit '/projects'
     click_link 'review Crowdfundingtestproject'
     fill_in 'Thoughts', with: thoughts
-    select '3', from: 'Rating'
+    select rating, from: 'Rating'
     click_button 'leave review'
   end
 
@@ -35,21 +35,21 @@ feature 'reviewing:' do
   end
 
   scenario 'allows users to leave a review using a form' do
-    leave_review('seems fairly good')
+    leave_review('seems fairly good', '3')
     expect(current_path).to eq '/projects'
     expect(page).to have_content('seems fairly good')
     expect(page).to have_content("you've successfully left a review!")
   end
 
   scenario 'allows user to see review and rating on the show page' do
-    leave_review('seems fairly good')
+    leave_review('seems fairly good', '3')
     click_link 'Crowdfundingtestproject'
     expect(page).to have_content('seems fairly good')
     expect(page).to have_content('3')
   end
 
   scenario 'displays user email to identify author of review' do
-    leave_review('seems fairly good')
+    leave_review('seems fairly good', '3')
     click_link 'Crowdfundingtestproject'
     expect(page).to have_content('review by user1@example.com')
   end
@@ -62,14 +62,14 @@ feature 'reviewing:' do
   # end
 
   scenario 'user cannot leave multiple reviews' do
-    leave_review('a bit awful')
+    leave_review('a bit awful', '1')
     click_link 'review Crowdfundingtestproject'
     expect(page).to have_content('you cannot review the same project twice.')
   end
 
 context 'deleting reviews:' do
   before do
-      leave_review('awful')
+      leave_review('awful', '1')
       click_link 'Crowdfundingtestproject'
   end  
 
