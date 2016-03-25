@@ -1,6 +1,6 @@
 # TestCrowd
 
-*A pre-crowdfunding platform, that was formerly built on Drupal (2014).*
+*A pre-crowdfunding platform, which I had formerly built in Drupal (2014).*
 
 ## objectives
 
@@ -9,16 +9,16 @@ Crowdfunding campaigners are able to try out their crowdfunding project and uplo
 ## technologies
 
 - Ruby on Rails 4.2.5
-- rspec/capybara
-- devise
+- *TDD:* rspec / capybara / Factory Girl
+- *user management:* devise / pundit
 
 ## specification
 
 * users can register, log in, log out and manage their own user data
 * users can determine whether they are logged in from the greeting message at the top, which contains their email address
+* two different user groups: all users can leave ratings/reviews, admin users can also create projects
 * every project has its own page containing name, description, list of reviews with reviewer name and ratings
 * project names must be at least three characters long, ratings must be between 1 and 5, reviews are optional
-* two different user groups: all users can leave ratings/reviews, admin users can also create projects
 
 *users who are logged in are able to:*
 
