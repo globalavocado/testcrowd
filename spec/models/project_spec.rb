@@ -17,3 +17,21 @@ describe Project, type: :model do
   end
 
 end
+
+describe '#average_rating' do
+  context 'no reviews' do
+    it 'returns "N/A" when there are no reviews' do
+      project = Project.create(name: 'Crowdfundingtestproject')
+      expect(project.average_rating).to eq 'N/A'
+    end
+  end
+
+  context '1 review' do
+    it 'returns that rating' do
+      project = Project.create(name: 'Crowdfundingtestproject')
+      project.reviews.create(rating: 4)
+      expect(project.average_rating).to eq 4
+    end
+  end
+
+end
