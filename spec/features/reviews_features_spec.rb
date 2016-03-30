@@ -45,13 +45,22 @@ feature 'reviewing:' do
     leave_review('seems fairly good', '3')
     click_link 'Crowdfundingtestproject'
     expect(page).to have_content('seems fairly good')
-    expect(page).to have_content('3')
+    expect(page).to have_content('★★★')
   end
 
   scenario 'displays user email to identify author of review' do
     leave_review('seems fairly good', '3')
     click_link 'Crowdfundingtestproject'
     expect(page).to have_content('review by user1@example.com')
+  end
+
+  scenario 'displays an average rating for all reviews' do
+    leave_review('so so', '3')
+    click_link 'log out'
+    user = create :user2
+    login_user('user2@example.com', 'password246')
+    leave_review('great', '5')
+    expect(page).to have_content('average rating: ★★★★☆')
   end
 
   # scenario 'user has to be logged in to leave a review' do

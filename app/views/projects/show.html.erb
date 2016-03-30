@@ -1,12 +1,12 @@
 <p><strong><%= @project.name %></strong> - added by <%= @project.email %></p>
-
+<p>average rating: <%= star_rating @project.average_rating.to_i %></p>
 <p><%= @project.description %></p>
 
   <% if @project.reviews.any? %>
     <ul>
       <% @project.reviews.each do |review| %>
       <li>
-        <%= review.thoughts %>, <strong><%= review.rating %></strong>/5 
+        <%= review.thoughts %>, <strong><%= star_rating review.rating %></strong> 
         <%= link_to "delete review", project_review_path(@project, review), method: :delete %></p>
         <p>review by <%= review.email %>
       </li>
