@@ -28,17 +28,17 @@ class ReviewsController < ApplicationController
     end
 
   def destroy
-    @project = Project.find(params[:project_id])
+    # @project = Project.find(params[:project_id])
     @review = Review.find(params[:id])
-    @project.reviews.find_by user_id: current_user
+    # @review.find_by(:id, current_user)
       if 
         @review.user != current_user
         flash[:notice] = "you cannot delete somebody else's review!"
-        redirect_to project_path(@project)
+        redirect_to projects_path
       else
         @review.destroy
         flash[:notice] = 'Review deleted successfully'
-        redirect_to project_path(@project) 
+        redirect_to projects_path
       end
   end
 

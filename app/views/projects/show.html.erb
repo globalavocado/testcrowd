@@ -7,7 +7,7 @@
       <% @project.reviews.each do |review| %>
       <li>
         <%= review.thoughts %>, <strong><%= star_rating review.rating %></strong> 
-        <%= link_to "delete review", project_review_path(@project, review), method: :delete %></p>
+        <%= link_to "delete review", review_path(review), method: :delete %></p>
         <p>review by <%= review.email %>
       </li>
       <% end %>

@@ -4,8 +4,10 @@ Rails.application.routes.draw do
 
   root to: 'projects#index'
   
-  resources :projects do
-    resources :reviews
+  resources :projects, shallow: true do
+    resources :reviews do
+      resources :endorsements
+    end
   end
 
 end
