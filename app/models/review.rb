@@ -1,8 +1,11 @@
 class Review < ActiveRecord::Base
-	validates :rating, inclusion: (1..5)
-	belongs_to :project
-	belongs_to :user
+  validates :rating, inclusion: (1..5)
 
-	delegate :email, to: :user
+  belongs_to :project
+  belongs_to :user
+
+  has_many :endorsements
+
+  delegate :email, to: :user
 
 end

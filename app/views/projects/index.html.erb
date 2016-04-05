@@ -17,6 +17,8 @@
           <% project.reviews.each do |review| %>
           <li>
             <%= review.thoughts %>, <strong><%= star_rating review.rating %></strong>
+            <p><%= pluralize review.endorsements.count, 'endorsement' %></p>
+            <%=link_to "endorse review", new_review_endorsement_path(review) %>
           </li>
           <% end %>
         </ul>

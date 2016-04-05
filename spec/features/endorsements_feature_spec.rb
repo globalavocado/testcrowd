@@ -24,7 +24,7 @@ def leave_review (thoughts, rating)
   click_button 'leave review'
 end
 
-feature 'endorsing reviews' do
+feature 'endorsing reviews:' do
   before do
     user = create :admin1 
     login_user('admin1@example.com', 'password678')
@@ -37,9 +37,16 @@ feature 'endorsing reviews' do
 
   scenario 'a user can endorse a review, which updates the review endorsement count' do
     visit '/projects'
-    click_link 'Crowdfundingtestproject'
     click_link 'endorse review'
     expect(page).to have_content('1 endorsement')
+  end
+
+  scenario 'the correct number of endorsements is displayed' do
+    visit '/projects'
+    click_link 'endorse review'
+    click_link 'endorse review'
+    click_link 'endorse review'
+    expect(page).to have_content ('3 endorsements')
   end
 
 end
