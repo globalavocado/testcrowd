@@ -19,6 +19,7 @@ Crowdfunding campaigners are able to try out their crowdfunding project and uplo
 * two different user groups: all users can leave ratings/reviews, admin users can also create projects
 * every project has its own page containing name, description, list of reviews with reviewer name and ratings
 * project names must be at least three characters long, ratings must be between 1 and 5, reviews are optional
+* users can log in with Facebook
 
 *users who are logged in are able to:*
 
@@ -26,12 +27,13 @@ Crowdfunding campaigners are able to try out their crowdfunding project and uplo
 * create, edit and delete their own projects, but not those of other users
 * create and delete their own reviews, but not those of other users
 * add a review text and a numerical rating to a project, but not more than once
+* reviews can be endorsed
 
 ### future development:
 
-* users can't review their own projects
-* reviews can be endorsed
 * a user name will be displayed next to each review
 * through a form, users are able to embed presentations or upload media to their projects
-* users can log in with Twitter or Facebook
+* users can't review their own projects
+* users cannot endorse their own reviews
+* users can log in with Twitter
 * notification system for project owner
