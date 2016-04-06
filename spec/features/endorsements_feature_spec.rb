@@ -36,17 +36,27 @@ feature 'endorsing reviews:' do
   end
 
   scenario 'a user can endorse a review, which updates the review endorsement count' do
+    click_link 'log out'
+    user = create :user2
+    login_user('user2@example.com', 'password246')
     visit '/projects'
     click_link 'endorse review'
     expect(page).to have_content('1 endorsement')
   end
 
-  scenario 'the correct number of endorsements is displayed' do
+  # scenario 'the correct number of endorsements is displayed' do
+  #   visit '/projects'
+  #   click_link 'endorse review'
+  #   click_link 'endorse review'
+  #   click_link 'endorse review'
+  #   expect(page).to have_content ('3 endorsements')
+  # end
+
+  scenario 'users cannot endorse their own review' do
     visit '/projects'
     click_link 'endorse review'
     click_link 'endorse review'
-    click_link 'endorse review'
-    expect(page).to have_content ('3 endorsements')
+    expect(page).to have_content ('you cannot endorse your own review')
   end
 
 end
