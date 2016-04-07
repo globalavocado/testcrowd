@@ -35,7 +35,7 @@ feature 'endorsing reviews:' do
     leave_review('seems fairly good', '3')
   end
 
-  scenario 'a user can endorse a review, which updates the review endorsement count' do
+  scenario 'a user can endorse a review, which updates the review endorsement count', js: true do
     click_link 'log out'
     user = create :user2
     login_user('user2@example.com', 'password246')
@@ -52,7 +52,7 @@ feature 'endorsing reviews:' do
   #   expect(page).to have_content ('3 endorsements')
   # end
 
-  scenario 'users cannot endorse their own review' do
+  xscenario 'users cannot endorse their own review' do
     visit '/projects'
     click_link 'endorse review'
     click_link 'endorse review'
