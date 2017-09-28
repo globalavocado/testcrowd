@@ -12,6 +12,35 @@ Crowdfunding campaigners are able to try out their crowdfunding project and uplo
 - *TDD:* rspec / capybara / Factory Girl
 - *user management:* devise / pundit
 - Ajax
+- PostgreSQL
+
+## instructions
+
+In order to set up a development environment and run the tests, these two database need to be present:
+
+~~~
+  ... $ psql
+  ... =# CREATE DATABASE "testcrowd_test";
+  ... =# CREATE DATABASE "testcrowd_development";
+  ... =# \q
+~~~
+
+then generate the necessary database structure:
+
+~~~
+    ... $ rails db:migrate
+~~~
+
+make sure all gems are up to date and start the server:
+
+~~~
+	... $ bundle install
+	... $ rails s
+~~~
+
+Go to your browser and you should see the site at http://localhost:3000 
+If not, check the port number in the command line.
+
 
 ## specification
 
@@ -25,13 +54,14 @@ Crowdfunding campaigners are able to try out their crowdfunding project and uplo
 *users who are logged in are able to:*
 
 * see the project listings page with reviews, ratings and an add review link
-* create, edit and delete their own projects, but not those of other users
+* create, edit and delete their own projects, but not those of other users. **at present the status of a user can only be elevated manually to project owner, by setting the admin column in the database to 'true'**
 * create and delete their own reviews, but not those of other users
 * add a review text and a numerical rating to a project, but not more than once
 * reviews can be endorsed
 
 ### future development:
 
+* a better way to handle admin rights
 * a user name will be displayed next to each review
 * through a form, users are able to embed presentations or upload media to their projects
 * users cannot endorse their own reviews
