@@ -4,19 +4,20 @@
 
 ## objectives
 
-Crowdfunding campaigners are able to try out their crowdfunding project and upload videos, images and text. This will enable their supporters to leave feedback in the form of star ratings, endorsements and comments, which helps campaigners to improve their campaign before they go live on their crowdfunding platform of choice.
+Crowdfunding campaigners are able to try out their crowdfunding project and upload videos, images and text. Their supporters leave feedback in the form of star ratings, endorsements and comments. This is valuable for campaigners, as it helps them improve their campaign before they go live on their crowdfunding platform of choice.
 
 ## technologies
 
-- Ruby on Rails 5.0.4
+- Ruby on Rails 5.1
 - *TDD:* rspec / capybara / Factory Girl
 - *user management:* devise / pundit
+- Ajax
 
 ## specification
 
 * users can register, log in, log out and manage their own user data
 * users can determine whether they are logged in from the greeting message at the top, which contains their email address
-* two different user groups: all users can leave ratings/reviews, admin users can also create projects
+* two user groups: all users can leave ratings/reviews/endorsements, project owners can also create projects
 * every project has its own page containing name, description, list of reviews with reviewer name and ratings
 * project names must be at least three characters long, ratings must be between 1 and 5, reviews are optional
 * users can log in with Facebook
@@ -33,7 +34,9 @@ Crowdfunding campaigners are able to try out their crowdfunding project and uplo
 
 * a user name will be displayed next to each review
 * through a form, users are able to embed presentations or upload media to their projects
-* users can't review their own projects
 * users cannot endorse their own reviews
+* project owners can't review their own projects
+* project owners cannot endorse reviews on their own project
+* a superuser, who can manage access levels for users & project owners through a dashboard
 * users can log in with Twitter
-* notification system for project owner
+* notification system for project owners
