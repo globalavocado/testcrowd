@@ -18,12 +18,13 @@ require 'rails_helper'
 
 feature 'projects:' do
 
-  context 'no projects have been added' do
+  context 'no projects have been added:' do
     scenario 'should not display a prompt to add a project for regular users' do
       user = create :user1
       login_user('user1@example.com', 'password123')
       visit '/projects'
       expect(page).to have_content 'no projects yet!'
+      expect(page).not_to have_content('projects that are currently live')
       expect(page).not_to have_link 'add a project'
     end
 
@@ -32,6 +33,7 @@ feature 'projects:' do
       login_user('admin1@example.com', 'password678')
       visit '/projects'
       expect(page).to have_content 'no projects yet!'
+      expect(page).not_to have_content('projects that are currently live')
       expect(page).to have_link 'add a project'
     end
   end

@@ -1,8 +1,8 @@
 <% if user_signed_in? %>
 
-  <p>projects that are currently live:</p>
 
   <% if @projects.any? %>
+  <p>projects that are currently live:</p>
     <% @projects.each do |project| %>
       <h2> <%= link_to project.name, project_path(project) %> </h2>
       <% if user_signed_in? %>
