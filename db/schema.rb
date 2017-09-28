@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -20,9 +19,8 @@ ActiveRecord::Schema.define(version: 20160405102511) do
     t.integer  "review_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["review_id"], name: "index_endorsements_on_review_id", using: :btree
   end
-
-  add_index "endorsements", ["review_id"], name: "index_endorsements_on_review_id", using: :btree
 
   create_table "projects", force: :cascade do |t|
     t.string   "name"
@@ -31,9 +29,8 @@ ActiveRecord::Schema.define(version: 20160405102511) do
     t.datetime "updated_at",  null: false
     t.text     "description"
     t.integer  "user_id"
+    t.index ["user_id"], name: "index_projects_on_user_id", using: :btree
   end
-
-  add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
 
   create_table "reviews", force: :cascade do |t|
     t.text     "thoughts"
@@ -42,10 +39,9 @@ ActiveRecord::Schema.define(version: 20160405102511) do
     t.datetime "updated_at", null: false
     t.integer  "project_id"
     t.integer  "user_id"
+    t.index ["project_id"], name: "index_reviews_on_project_id", using: :btree
+    t.index ["user_id"], name: "index_reviews_on_user_id", using: :btree
   end
-
-  add_index "reviews", ["project_id"], name: "index_reviews_on_project_id", using: :btree
-  add_index "reviews", ["user_id"], name: "index_reviews_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
@@ -64,10 +60,9 @@ ActiveRecord::Schema.define(version: 20160405102511) do
     t.string   "provider"
     t.string   "uid"
     t.string   "name"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "endorsements", "reviews"
   add_foreign_key "projects", "users"

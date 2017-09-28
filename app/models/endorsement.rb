@@ -1,3 +1,3 @@
-class Endorsement < ActiveRecord::Base
+class Endorsement < ApplicationRecord
   belongs_to :review
 end

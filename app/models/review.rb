@@ -1,4 +1,4 @@
-class Review < ActiveRecord::Base
+class Review < ApplicationRecord
   validates :rating, inclusion: (1..5)
 
   belongs_to :project

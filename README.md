@@ -8,7 +8,7 @@ Crowdfunding campaigners are able to try out their crowdfunding project and uplo
 
 ## technologies
 
-- Ruby on Rails 4.2.5
+- Ruby on Rails 5.0.4
 - *TDD:* rspec / capybara / Factory Girl
 - *user management:* devise / pundit
 
